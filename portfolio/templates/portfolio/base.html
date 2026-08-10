@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Lapsitemplate voi korvata välilehden otsikon. -->
+    <title>{% block title %}Jouni Kiviperä | CV{% endblock title %}</title>
+</head>
+<body>
+    <!-- Sivuston yhteinen yläosa -->
+    <header>
+        <p>Jouni Kiviperä</p>
+    </header>
+
+    <!-- Jokainen sivu lisää oman sisältönsä tähän lohkoon. -->
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <!-- Sivuston yhteinen alatunniste -->
+    <footer>
+        <p>&copy; {% now "Y" %} Jouni Kiviperä</p>
+    </footer>
+</body>
+</html>
