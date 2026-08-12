@@ -67,3 +67,22 @@ class Education(models.Model):
 
     def __str__(self):
         return f"{self.degree} - {self.institution}"
+
+
+class Project(models.Model):
+    """Tallentaa yhden CV-sivustolla esiteltävän projektin."""
+
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    technologies = models.CharField(max_length=200, blank=True)
+    project_url = models.URLField(blank=True)
+    source_url = models.URLField(blank=True)
+    is_featured = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-is_featured", "display_order", "title"]
+
+    def __str__(self):
+        return self.title
