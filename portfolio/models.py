@@ -30,3 +30,21 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class Experience(models.Model):
+    """Malli työkokemusten ja työhistorian tallentamiseen."""
+
+    company = models.CharField(max_length=100)
+    job_title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["display_order", "-start_date"]
+
+    def __str__(self):
+        return f"{self.job_title} - {self.company}"
