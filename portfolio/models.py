@@ -48,3 +48,22 @@ class Experience(models.Model):
 
     def __str__(self):
         return f"{self.job_title} - {self.company}"
+
+
+class Education(models.Model):
+    """Malli koulutuksen tallentamiseen."""
+
+    institution = models.CharField(max_length=100)
+    degree = models.CharField(max_length=100)
+    field_of_study = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["display_order", "-start_date"]
+
+    def __str__(self):
+        return f"{self.degree} - {self.institution}"
