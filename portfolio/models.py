@@ -18,3 +18,15 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Profile(models.Model):
+    """Tallentaa yhden CV-sivustolla näytettävän profiilin."""
+
+    full_name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    bio = models.TextField()
+    location = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.full_name
