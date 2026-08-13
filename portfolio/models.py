@@ -86,3 +86,18 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ContactLink(models.Model):
+    """Malli sosiaalisen median linkkien ja yhteystietolinkkien tallentamiseen."""
+
+    label = models.CharField(max_length=50)
+    url = models.CharField(max_length=300)
+    is_active = models.BooleanField(default=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["display_order", "label"]
+
+    def __str__(self):
+        return self.label
