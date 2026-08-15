@@ -13,7 +13,26 @@
         <a href="#contact">Ota yhteyttä</a>
     </section>
 
-    <!-- Varsinaiset yhteystiedot lisätään myöhemmin. -->
+    <!-- Osaamiset haetaan tietokannasta näkymän välittämän kontekstin kautta. -->
+    <section aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Osaaminen</h2>
+
+        <ul>
+            {% for skill in skills %}
+                <li>{{ skill.name }}: taso {{ skill.level }}/5</li>
+            {% empty %}
+                <li>Osaamisia lisätään myöhemmin.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Työkokemukset (Experience) lisätään tähän myöhemmin. -->
+
+    <!-- Koulutukset (Education) lisätään tähän myöhemmin. -->
+
+    <!-- Projektit (Project) lisätään tähän myöhemmin. -->
+
+    <!-- Yhteystietolinkit (ContactLink) lisätään tähän myöhemmin. -->
     <section id="contact" aria-labelledby="contact-heading">
         <h2 id="contact-heading">Yhteystiedot</h2>
         <p>Yhteystiedot lisätään myöhemmin.</p>

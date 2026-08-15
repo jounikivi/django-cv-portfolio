@@ -1,6 +1,14 @@
 from django.shortcuts import render
 
-# Näytetään CV-sivuston etusivu HTML-templaten avulla.
+from .models import Skill
+
+
 def home(request):
-    # Etsitään template ja palautetaan valmis HTML-vastaus selaimelle.
-    return render(request, "portfolio/home.html")
+    # Haetaan etusivulle vain näkyviksi merkityt taidot.
+    skills = Skill.objects.filter(is_active=True)
+
+    context = {
+        "skills": skills,
+    }
+
+    return render(request, "portfolio/home.html", context)
