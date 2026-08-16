@@ -5,9 +5,15 @@
 {% block content %}
     <!-- Etusivun esittelyosio -->
     <section aria-labelledby="intro-heading">
-        <h1 id="intro-heading">Jouni Kiviperä</h1>
-        <!-- Varsinainen ammattiprofiili lisätään myöhemmin. -->
-        <p>Esittelyteksti lisätään myöhemmin.</p>
+        {% if profile %}
+            <h1 id="intro-heading">{{ profile.full_name }}</h1>
+            <p>{{ profile.title }}</p>
+            <p>{{ profile.bio }}</p>
+            <p>{{ profile.location }}</p>
+        {% else %}
+            <h1 id="intro-heading">Jouni Kiviperä</h1>
+            <p>Esittelyteksti lisätään myöhemmin.</p>
+        {% endif %}
 
         <!-- Linkki siirtää käyttäjän saman sivun yhteystieto-osioon. -->
         <a href="#contact">Ota yhteyttä</a>
