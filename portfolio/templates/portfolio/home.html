@@ -32,7 +32,32 @@
         </ul>
     </section>
 
-    <!-- Työkokemukset (Experience) lisätään tähän myöhemmin. -->
+    <!-- Työkokemukset haetaan tietokannasta. -->
+    <section aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Työkokemus</h2>
+
+        {% for experience in experiences %}
+            <article>
+                <h3>{{ experience.job_title }}</h3>
+                <p>{{ experience.company }}</p>
+
+                <p>
+                    {{ experience.start_date|date:"m/Y" }}–
+                    {% if experience.end_date %}
+                        {{ experience.end_date|date:"m/Y" }}
+                    {% else %}
+                        nykyinen
+                    {% endif %}
+                </p>
+
+                {% if experience.description %}
+                    <p>{{ experience.description }}</p>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>Työkokemukset lisätään myöhemmin.</p>
+        {% endfor %}
+    </section>
 
     <!-- Koulutukset (Education) lisätään tähän myöhemmin. -->
 
