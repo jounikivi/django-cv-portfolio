@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Experience, Profile, Skill
+from .models import Education, Experience, Profile, Skill
 
 
 def home(request):
@@ -10,10 +10,14 @@ def home(request):
     # Haetaan etusivulle vain näkyviksi merkityt työkokemukset.
     experiences = Experience.objects.filter(is_active=True)
 
+    # Haetaan etusivulle vain näkyviksi merkityt koulutukset.
+    educations = Education.objects.filter(is_active=True)
+
     # Haetaan etusivulle vain näkyviksi merkityt taidot.
     skills = Skill.objects.filter(is_active=True)
 
     context = {
+        "educations": educations,
         "experiences": experiences,
         "profile": profile,
         "skills": skills,

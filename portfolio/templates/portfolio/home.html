@@ -59,7 +59,35 @@
         {% endfor %}
     </section>
 
-    <!-- Koulutukset (Education) lisätään tähän myöhemmin. -->
+    <!-- Koulutukset haetaan tietokannasta. -->
+    <section aria-labelledby="education-heading">
+        <h2 id="education-heading">Koulutus</h2>
+
+        {% for education in educations %}
+            <article>
+                <h3>{{ education.degree }}</h3>
+                <p>{{ education.institution }}</p>
+
+                {% if education.field_of_study %}
+                    <p>{{ education.field_of_study }}</p>
+                {% endif %}
+
+                <p>
+                    {{ education.start_date|date:"m/Y" }}–
+                    {% if education.end_date %}
+                        {{ education.end_date|date:"m/Y" }}
+                    {% else %}
+                        nykyinen
+                    {% endif %}
+                </p>
+                {% if education.description %}
+                    <p>{{ education.description }}</p>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>Koulutukset lisätään myöhemmin.</p>
+        {% endfor %}
+    </section>
 
     <!-- Projektit (Project) lisätään tähän myöhemmin. -->
 
