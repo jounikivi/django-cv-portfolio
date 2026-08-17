@@ -89,7 +89,38 @@
         {% endfor %}
     </section>
 
-    <!-- Projektit (Project) lisätään tähän myöhemmin. -->
+    <!-- Projektit haetaan tietokannasta. -->
+    <section aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projektit</h2>
+
+        {% for project in projects %}
+            <article>
+                <h3>{{ project.title }}</h3>
+
+                {% if project.description %}
+                    <p>{{ project.description }}</p>
+                {% endif %}
+
+                {% if project.technologies %}
+                    <p>Teknologiat: {{ project.technologies }}</p>
+                {% endif %}
+
+                {% if project.project_url or project.source_url %}
+                    <div>
+                        {% if project.project_url %}
+                            <a href="{{ project.project_url }}">Avaa projekti</a>
+                        {% endif %}
+
+                        {% if project.source_url %}
+                            <a href="{{ project.source_url }}">Näytä lähdekoodi</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>Projektit lisätään myöhemmin.</p>
+        {% endfor %}
+    </section>
 
     <!-- Yhteystietolinkit (ContactLink) lisätään tähän myöhemmin. -->
     <section id="contact" aria-labelledby="contact-heading">
