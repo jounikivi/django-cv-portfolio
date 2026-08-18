@@ -1,16 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}">
     <!-- Lapsitemplate voi korvata välilehden otsikon. -->
-    <title>{% block title %}Jouni Kiviperä | CV{% endblock title %}</title>
+    <title>{% block title %}Etunimi Sukunimi | CV{% endblock title %}</title>
 </head>
 <body>
     <!-- Sivuston yhteinen yläosa -->
-    <header>
-        <p>Jouni Kiviperä</p>
+    <header class="site-header">
+        <a class="site-name" href="#top">Etunimi Sukunimi</a>
+
+        <nav aria-label="Päänavigaatio">
+            <ul class="nav-list">
+                <li><a href="#skills">Osaaminen</a></li>
+                <li><a href="#experience">Työkokemus</a></li>
+                <li><a href="#education">Koulutus</a></li>
+                <li><a href="#projects">Projektit</a></li>
+                <li><a href="#contact">Yhteystiedot</a></li>
+            </ul>
+        </nav>
     </header>
 
     <!-- Jokainen sivu lisää oman sisältönsä tähän lohkoon. -->
@@ -21,7 +32,7 @@
 
     <!-- Sivuston yhteinen alatunniste -->
     <footer>
-        <p>&copy; {% now "Y" %} Jouni Kiviperä</p>
+        <p>&copy; {% now "Y" %} Etunimi Sukunimi</p>
     </footer>
 </body>
 </html>

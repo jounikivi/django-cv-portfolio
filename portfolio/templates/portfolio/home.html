@@ -1,43 +1,45 @@
 {% extends "portfolio/base.html" %}
 
-{% block title %}Jouni Kiviperä | CV{% endblock title %}
+{% block title %}Etunimi Sukunimi | CV{% endblock title %}
 
 {% block content %}
     <!-- Etusivun esittelyosio -->
-    <section aria-labelledby="intro-heading">
+    <section id="top" class="hero" aria-labelledby="intro-heading">
         {% if profile %}
             <h1 id="intro-heading">{{ profile.full_name }}</h1>
             <p>{{ profile.title }}</p>
             <p>{{ profile.bio }}</p>
             <p>{{ profile.location }}</p>
         {% else %}
-            <h1 id="intro-heading">Jouni Kiviperä</h1>
+            <h1 id="intro-heading">Etunimi Sukunimi</h1>
             <p>Esittelyteksti lisätään myöhemmin.</p>
         {% endif %}
 
         <!-- Linkki siirtää käyttäjän saman sivun yhteystieto-osioon. -->
-        <a href="#contact">Ota yhteyttä</a>
+        <a class="button-link" href="#contact">Ota yhteyttä</a>
     </section>
 
     <!-- Osaamiset haetaan tietokannasta näkymän välittämän kontekstin kautta. -->
-    <section aria-labelledby="skills-heading">
+    <section id="skills" aria-labelledby="skills-heading">
         <h2 id="skills-heading">Osaaminen</h2>
 
-        <ul>
+        <ul class="skill-grid">
             {% for skill in skills %}
-                <li>{{ skill.name }}: taso {{ skill.level }}/5</li>
+                <li class="skill-card">
+                    {{ skill.name }}: taso {{ skill.level }}/5
+                </li>
             {% empty %}
-                <li>Osaamisia lisätään myöhemmin.</li>
+                <li class="empty-state">Osaamisia lisätään myöhemmin.</li>
             {% endfor %}
         </ul>
     </section>
 
     <!-- Työkokemukset haetaan tietokannasta. -->
-    <section aria-labelledby="experience-heading">
+    <section id="experience" aria-labelledby="experience-heading">
         <h2 id="experience-heading">Työkokemus</h2>
 
         {% for experience in experiences %}
-            <article>
+            <article class="timeline-item">
                 <h3>{{ experience.job_title }}</h3>
                 <p>{{ experience.company }}</p>
 
@@ -60,11 +62,11 @@
     </section>
 
     <!-- Koulutukset haetaan tietokannasta. -->
-    <section aria-labelledby="education-heading">
+    <section id="education" aria-labelledby="education-heading">
         <h2 id="education-heading">Koulutus</h2>
 
         {% for education in educations %}
-            <article>
+            <article class="timeline-item">
                 <h3>{{ education.degree }}</h3>
                 <p>{{ education.institution }}</p>
 
@@ -90,11 +92,11 @@
     </section>
 
     <!-- Projektit haetaan tietokannasta. -->
-    <section aria-labelledby="projects-heading">
+    <section id="projects" aria-labelledby="projects-heading">
         <h2 id="projects-heading">Projektit</h2>
 
         {% for project in projects %}
-            <article>
+            <article class="project-card">
                 <h3>{{ project.title }}</h3>
 
                 {% if project.description %}
@@ -106,7 +108,7 @@
                 {% endif %}
 
                 {% if project.project_url or project.source_url %}
-                    <div>
+                    <div class="project-links">
                         {% if project.project_url %}
                             <a href="{{ project.project_url }}">Avaa projekti</a>
                         {% endif %}
@@ -126,7 +128,7 @@
     <section id="contact" aria-labelledby="contact-heading">
         <h2 id="contact-heading">Yhteystiedot</h2>
 
-        <ul>
+        <ul class="contact-links">
             {% for contact_link in contact_links %}
                 <li>
                     <a href="{{ contact_link.url }}">
@@ -134,7 +136,7 @@
                     </a>
                 </li>
             {% empty %}
-                <li>Yhteystiedot lisätään myöhemmin.</li>
+                <li class="empty-state">Yhteystiedot lisätään myöhemmin.</li>
             {% endfor %}
         </ul>
     </section>
