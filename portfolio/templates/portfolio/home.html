@@ -122,10 +122,21 @@
         {% endfor %}
     </section>
 
-    <!-- Yhteystietolinkit (ContactLink) lisätään tähän myöhemmin. -->
+    <!-- Yhteystietolinkit haetaan tietokannasta. -->
     <section id="contact" aria-labelledby="contact-heading">
         <h2 id="contact-heading">Yhteystiedot</h2>
-        <p>Yhteystiedot lisätään myöhemmin.</p>
+
+        <ul>
+            {% for contact_link in contact_links %}
+                <li>
+                    <a href="{{ contact_link.url }}">
+                        {{ contact_link.label }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>Yhteystiedot lisätään myöhemmin.</li>
+            {% endfor %}
+        </ul>
     </section>
 
 {% endblock content %}

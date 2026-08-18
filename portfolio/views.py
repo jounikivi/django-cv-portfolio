@@ -1,11 +1,14 @@
 from django.shortcuts import render
 
-from .models import Education, Experience, Profile, Project, Skill
+from .models import ContactLink, Education, Experience, Profile, Project, Skill
 
 
 def home(request):
     # Haetaan sivustolla näytettävä profiili.
     profile = Profile.objects.first()
+
+    # Haetaan etusivulle vain näkyviksi merkityt yhteystietolinkit.
+    contact_links = ContactLink.objects.filter(is_active=True)
 
     # Haetaan etusivulle vain näkyviksi merkityt työkokemukset.
     experiences = Experience.objects.filter(is_active=True)
@@ -20,6 +23,7 @@ def home(request):
     skills = Skill.objects.filter(is_active=True)
 
     context = {
+        "contact_links": contact_links,
         "educations": educations,
         "experiences": experiences,
         "profile": profile,
