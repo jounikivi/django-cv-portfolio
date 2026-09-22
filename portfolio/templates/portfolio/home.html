@@ -6,6 +6,15 @@
     <!-- Etusivun esittelyosio -->
     <section id="top" class="hero" aria-labelledby="intro-heading">
         {% if profile %}
+        {% if profile.image %}
+            <img
+            class="profile-image"
+            src="{{ profile.image.url }}"
+            alt="{{ profile.image_alt_text }}"
+            width="240"
+            height="240"
+            >
+        {% endif %}
             <h1 id="intro-heading">{{ profile.full_name }}</h1>
             <p>{{ profile.title }}</p>
             <p>{{ profile.bio }}</p>

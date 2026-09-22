@@ -306,3 +306,14 @@ h3 {
         min-height: 60vh;
     }
 }
+
+/* Profiilikuva */
+.profile-image {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 50%;
+    background-color: var(--color-border);
+}

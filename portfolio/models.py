@@ -27,6 +27,8 @@ class Profile(models.Model):
     title = models.CharField(max_length=100)
     bio = models.TextField()
     location = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="profile/", blank=True)
+    image_alt_text = models.CharField(max_length=150, blank=True, default="")
 
     def __str__(self):
         return self.full_name

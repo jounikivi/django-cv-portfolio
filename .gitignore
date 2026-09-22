@@ -22,3 +22,6 @@ tmp/
 # Paikalliset oppimismateriaalit
 Jouni_Kivipera_Django_CV_sivusto_oppimissuunnitelma.pdf
 vaihe0.py
+
+# Ylläpidosta ladattavat kuvat ja tiedostot
+/media/
