@@ -26,6 +26,15 @@
 
         <!-- Linkki siirtää käyttäjän saman sivun yhteystieto-osioon. -->
         <a class="button-link" href="#contact">Ota yhteyttä</a>
+        {% if profile and profile.cv_file %}
+            <a class="button-link"
+            href="{{ profile.cv_file.url }}"
+            target="_blank"
+            rel="noopener"
+            >
+            Lataa CV
+            </a>
+        {% endif %}
     </section>
 
     <!-- Osaamiset haetaan tietokannasta näkymän välittämän kontekstin kautta. -->

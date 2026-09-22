@@ -30,6 +30,13 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="profile/", blank=True)
     image_alt_text = models.CharField(max_length=150, blank=True, default="")
 
+    cv_file = models.FileField(
+        upload_to="documents/",
+        blank=True,
+        default="",
+    )
+
+
     def __str__(self):
         return self.full_name
 
