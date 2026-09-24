@@ -11,6 +11,7 @@ db.sqlite3
 # Ympäristömuuttujat ja salaiset asetukset
 .env
 .env.*
+!.env.example
 
 # Käyttöjärjestelmän automaattiset tiedostot
 .DS_Store

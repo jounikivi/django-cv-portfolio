@@ -66,13 +66,29 @@ class Education(models.Model):
     degree = models.CharField(max_length=100)
     field_of_study = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
-    start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True)
+    education_type = models.CharField(
+        "Koulutuksen tyyppi", max_length=10,
+        choices=[("degree", "Tutkinto"), ("course", "Kurssi")], default="degree",
+    )
+    completion_year = models.PositiveSmallIntegerField(
+        "Valmistumisvuosi", validators=[MinValueValidator(1900), MaxValueValidator(9999)],
+    )
+    completion_month = models.PositiveSmallIntegerField(
+        "Valmistumiskuukausi", blank=True, null=True,
+        choices=[(month, f"{month:02d}") for month in range(1, 13)],
+        help_text="Jätä tyhjäksi, jos tiedät vain vuoden.",
+    )
     is_active = models.BooleanField(default=True)
     display_order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ["display_order", "-start_date"]
+        ordering = ["display_order", "-completion_year", "-completion_month"]
+
+    @property
+    def completion_label(self):
+        label = "Suoritettu" if self.education_type == "course" else "Valmistunut"
+        month = f"{self.completion_month:02d}/" if self.completion_month else ""
+        return f"{label} {month}{self.completion_year}"
 
     def __str__(self):
         return f"{self.degree} - {self.institution}"

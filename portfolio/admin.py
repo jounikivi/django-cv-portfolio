@@ -24,8 +24,9 @@ class EducationAdmin(admin.ModelAdmin):
         "degree",
         "institution",
         "field_of_study",
-        "start_date",
-        "end_date",
+        "education_type",
+        "completion_year",
+        "completion_month",
         "is_active",
         "display_order",
     )
@@ -71,7 +72,8 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ("name", "level", "is_active", "display_order")
+    exclude = ("level",)
+    list_display = ("name", "is_active", "display_order")
     search_fields = ("name",)
     list_filter = ("is_active",)
-    list_editable = ("level", "is_active", "display_order")
+    list_editable = ("is_active", "display_order")

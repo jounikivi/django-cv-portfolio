@@ -44,7 +44,7 @@
         <ul class="skill-grid">
             {% for skill in skills %}
                 <li class="skill-card">
-                    {{ skill.name }}: taso {{ skill.level }}/5
+                    {{ skill.name }}
                 </li>
             {% empty %}
                 <li class="empty-state">Osaamisia lisätään myöhemmin.</li>
@@ -93,12 +93,7 @@
                 {% endif %}
 
                 <p>
-                    {{ education.start_date|date:"m/Y" }}–
-                    {% if education.end_date %}
-                        {{ education.end_date|date:"m/Y" }}
-                    {% else %}
-                        nykyinen
-                    {% endif %}
+                    {{ education.completion_label }}
                 </p>
                 {% if education.description %}
                     <p>{{ education.description }}</p>
