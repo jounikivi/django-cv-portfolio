@@ -1,50 +1,59 @@
 {% extends "portfolio/base.html" %}
 
-{% block title %}Etunimi Sukunimi | CV{% endblock title %}
+{% block title %}{{ profile.full_name|default:"Portfolio" }} | CV{% endblock title %}
 
 {% block content %}
     <!-- Etusivun esittelyosio -->
-    <section id="top" class="hero" aria-labelledby="intro-heading">
-        {% if profile %}
-        {% if profile.image %}
-            <img
-            class="profile-image"
-            src="{{ profile.image.url }}"
-            alt="{{ profile.image_alt_text }}"
-            width="240"
-            height="240"
-            >
-        {% endif %}
-            <h1 id="intro-heading">{{ profile.full_name }}</h1>
-            <p>{{ profile.title }}</p>
-            <p>{{ profile.bio }}</p>
-            <p>{{ profile.location }}</p>
-        {% else %}
-            <h1 id="intro-heading">Etunimi Sukunimi</h1>
-            <p>Esittelyteksti lisätään myöhemmin.</p>
-        {% endif %}
+    <section id="top" class="hero{% if profile.image %} hero--with-image{% endif %}" aria-labelledby="intro-heading">
+        <div class="hero-content">
+            {% if profile %}
+                <p class="hero-eyebrow">CV & Portfolio{% if profile.location %} <span aria-hidden="true">/</span> {{ profile.location }}{% endif %}</p>
+                <h1 id="intro-heading">{{ profile.full_name }}</h1>
+                <p class="hero-title">{{ profile.title }}</p>
+                <p class="hero-bio">{{ profile.bio }}</p>
+            {% else %}
+                <h1 id="intro-heading">Etunimi Sukunimi</h1>
+                <p class="hero-bio">Esittelyteksti lisätään myöhemmin.</p>
+            {% endif %}
 
-        <!-- Linkki siirtää käyttäjän saman sivun yhteystieto-osioon. -->
-        <a class="button-link" href="#contact">Ota yhteyttä</a>
-        {% if profile and profile.cv_file %}
-            <a class="button-link"
-            href="{{ profile.cv_file.url }}"
-            target="_blank"
-            rel="noopener"
-            >
-            Lataa CV
-            </a>
+            <div class="hero-actions">
+                <a class="button-link" href="#contact">Ota yhteyttä <span aria-hidden="true">↗</span></a>
+                {% if profile and profile.cv_file %}
+                    <a class="button-link button-link--secondary"
+                       href="{{ profile.cv_file.url }}"
+                       target="_blank" rel="noopener">Lataa CV <span aria-hidden="true">↓</span></a>
+                {% endif %}
+            </div>
+        </div>
+        {% if profile.image %}
+            <div class="hero-portrait">
+                <img class="profile-image"
+                     src="{{ profile.image.url }}"
+                     alt="{{ profile.image_alt_text|default:profile.full_name }}"
+                     width="320" height="320">
+            </div>
+        {% endif %}
+        {% if skills %}
+            <ul class="hero-highlights" aria-label="Poimintoja osaamisestani">
+                {% for skill in skills|slice:":3" %}
+                    <li><a href="#skills"><span class="highlight-number" aria-hidden="true">0{{ forloop.counter }}</span><span>{{ skill.name }}</span><span class="highlight-arrow" aria-hidden="true">↗</span></a></li>
+                {% endfor %}
+            </ul>
         {% endif %}
     </section>
 
     <!-- Osaamiset haetaan tietokannasta näkymän välittämän kontekstin kautta. -->
-    <section id="skills" aria-labelledby="skills-heading">
-        <h2 id="skills-heading">Osaaminen</h2>
+    <section id="skills" class="skills-section" aria-labelledby="skills-heading">
+        <div class="skills-heading">
+            <p class="section-label">01 / Osaaminen</p>
+            <h2 id="skills-heading">Käytännön osaaminen</h2>
+        </div>
 
         <ul class="skill-grid">
-            {% for skill in skills %}
+            {% for group in skill_groups %}
                 <li class="skill-card">
-                    {{ skill.name }}
+                    <h3>{{ group.title }}</h3>
+                    <p>{{ group.items|join:" · " }}</p>
                 </li>
             {% empty %}
                 <li class="empty-state">Osaamisia lisätään myöhemmin.</li>

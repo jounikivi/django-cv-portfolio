@@ -37,7 +37,6 @@ a:focus-visible {
 }
 
 /* Keskitetty sisältöalue */
-header,
 main,
 footer {
     width: min(100%, 70rem);
@@ -146,9 +145,35 @@ h3 {
 }
 
 /* Osaamisruudukko */
+main > .skills-section {
+    padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.skills-heading {
+    margin-bottom: clamp(1.75rem, 4vw, 3rem);
+}
+
+.section-label {
+    margin: 0 0 1.25rem;
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.skills-heading h2 {
+    max-width: 18ch;
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
 .skill-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     margin: 0;
     padding: 0;
@@ -156,11 +181,38 @@ h3 {
 }
 
 .skill-card {
-    padding: 1.25rem;
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
-    background-color: var(--color-surface);
-    font-weight: 700;
+    min-width: 0;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid rgb(244 241 232 / 10%);
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, rgb(244 241 232 / 3%), transparent), var(--color-background);
+}
+
+.skill-card h3 {
+    margin: 0;
+    max-width: 28ch;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.skill-card h3::before {
+    content: "";
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    margin-bottom: 1.25rem;
+    background-color: var(--color-accent);
+}
+
+.skill-card p {
+    margin: 0.75rem 0 0;
+    max-width: 48ch;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
 }
 
 .empty-state {
@@ -169,6 +221,8 @@ h3 {
 
 .skill-grid > .empty-state {
     grid-column: 1 / -1;
+    padding: 1.5rem;
+    background-color: var(--color-background);
 }
 
 /* Aikajana */
@@ -238,35 +292,202 @@ h3 {
 
 /* Hero-alue */
 .hero {
-    display: flex;
-    min-height: min(70vh, 42rem);
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    position: relative;
+    display: grid;
+    align-items: center;
+    gap: 4rem clamp(2rem, 6vw, 5rem);
+    background: radial-gradient(ellipse at 85% 30%, rgb(212 175 55 / 6%), transparent 55%);
+}
+
+.hero--with-image {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+}
+
+main > .hero:first-child {
+    padding-block: clamp(2rem, 5vw, 4rem) 3rem;
+}
+
+.hero-content {
+    min-width: 0;
+}
+
+.hero h1 {
+    margin-block: 1.25rem;
+    font-size: clamp(2.75rem, 5.7vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
 }
 
 .hero p {
     max-width: 60ch;
     color: var(--color-muted);
     font-size: 1.125rem;
+    margin: 0;
 }
 
-.hero .button-link {
-    margin-top: 0.75rem;
+.hero .hero-title {
+    color: var(--color-accent);
+    font-weight: 500;
+    max-width: 40ch;
+    font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+    line-height: 1.5;
+}
+
+.hero .hero-eyebrow {
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.hero-eyebrow span {
+    margin-inline: 0.65rem;
+}
+
+.hero .hero-bio {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.hero .hero-location {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.hero-actions .button-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: 0.875rem;
+}
+
+.button-link--secondary {
+    background-color: transparent;
+    color: var(--color-accent);
+}
+
+.button-link--secondary:hover,
+.button-link--secondary:focus-visible {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+}
+
+.hero-portrait {
+    position: relative;
+    justify-self: center;
+    width: 100%;
+    max-width: 24rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(145deg, rgb(212 175 55 / 5%), transparent 65%);
+}
+
+.hero-portrait::before,
+.hero-portrait::after {
+    content: "";
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-color: var(--color-accent);
+}
+
+.hero-portrait::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    color: var(--color-accent);
+}
+
+.hero-portrait::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    color: var(--color-accent);
+}
+
+.hero-highlights {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hero-highlights a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(135deg, var(--color-surface), transparent);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.hero-highlights a:hover {
+    border-color: var(--color-accent);
+}
+
+.highlight-number,
+.highlight-arrow {
+    color: var(--color-accent);
+}
+
+.highlight-number {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+}
+
+.highlight-arrow {
+    margin-left: auto;
 }
 
 /* Päänavigaatio */
 .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 0;
+    background: rgb(11 13 16 / 96%);
+    backdrop-filter: blur(12px);
+}
+
+.header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
+    width: min(100%, 70rem);
+    margin-inline: auto;
+    padding: 1rem;
+}
+
+main > section {
+    scroll-margin-top: 6rem;
 }
 
 .site-name {
-    color: var(--color-text);
+    color: var(--color-accent);
     font-weight: 700;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-list {
@@ -280,9 +501,16 @@ h3 {
 }
 
 .nav-list a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    font-size: 0.8rem;
     color: var(--color-muted);
     font-weight: 600;
     text-decoration: none;
+}
+
+.nav-list .nav-contact {
+    color: var(--color-accent);
 }
 
 .nav-list a:hover,
@@ -292,9 +520,18 @@ h3 {
 
 /* Mobiilinäkymä */
 @media (max-width: 48rem) {
-    .site-header {
+    .skill-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-inner {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .site-header {
+        position: static;
     }
 
     .nav-list {
@@ -303,17 +540,36 @@ h3 {
     }
 
     .hero {
-        min-height: 60vh;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+    }
+
+    .hero-portrait {
+        justify-self: start;
+        max-width: 18rem;
+        padding: 1rem;
+    }
+
+    .hero-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    main {
+        padding-top: 0;
     }
 }
 
 /* Profiilikuva */
 .profile-image {
     display: block;
-    width: 200px;
+    width: 100%;
     max-width: 100%;
-    height: 200px;
-    margin-bottom: 1.5rem;
+    height: auto;
+    aspect-ratio: 1;
     border: 2px solid var(--color-accent);
     border-radius: 50%;
     object-fit: cover;

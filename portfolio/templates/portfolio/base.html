@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=6">
     <!-- Lapsitemplate voi korvata välilehden otsikon. -->
     <title>{% block title %}Etunimi Sukunimi | CV{% endblock title %}</title>
 </head>
 <body>
     <!-- Sivuston yhteinen yläosa -->
     <header class="site-header">
-        <a class="site-name" href="#top">Etunimi Sukunimi</a>
+      <div class="header-inner">
+        <a class="site-name" href="#top">{{ profile.full_name|default:"CV & Portfolio" }}</a>
 
         <nav aria-label="Päänavigaatio">
             <ul class="nav-list">
@@ -19,9 +20,10 @@
                 <li><a href="#experience">Työkokemus</a></li>
                 <li><a href="#education">Koulutus</a></li>
                 <li><a href="#projects">Projektit</a></li>
-                <li><a href="#contact">Yhteystiedot</a></li>
+                <li><a class="nav-contact" href="#contact">Ota yhteyttä <span aria-hidden="true">↗</span></a></li>
             </ul>
         </nav>
+      </div>
     </header>
 
     <!-- Jokainen sivu lisää oman sisältönsä tähän lohkoon. -->
