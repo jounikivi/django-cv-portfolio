@@ -4,17 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=8">
+    <script src="{% static 'portfolio/js/navigation.js' %}" defer></script>
     <!-- Lapsitemplate voi korvata välilehden otsikon. -->
-    <title>{% block title %}Etunimi Sukunimi | CV{% endblock title %}</title>
+    <title>{% block title %}{{ profile.full_name|default:"Portfolio" }} | CV{% endblock title %}</title>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Siirry sisältöön</a>
     <!-- Sivuston yhteinen yläosa -->
     <header class="site-header">
       <div class="header-inner">
         <a class="site-name" href="#top">{{ profile.full_name|default:"CV & Portfolio" }}</a>
 
-        <nav aria-label="Päänavigaatio">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" hidden>
+            <span class="menu-label">Valikko</span>
+            <span class="menu-icon" aria-hidden="true">☰</span>
+        </button>
+        <nav id="site-navigation" aria-label="Päänavigaatio">
             <ul class="nav-list">
                 <li><a href="#skills">Osaaminen</a></li>
                 <li><a href="#experience">Työkokemus</a></li>
@@ -27,14 +33,15 @@
     </header>
 
     <!-- Jokainen sivu lisää oman sisältönsä tähän lohkoon. -->
-    <main>
+    <main id="main-content" tabindex="-1">
         {% block content %}
         {% endblock content %}
     </main>
 
     <!-- Sivuston yhteinen alatunniste -->
-    <footer>
-        <p>&copy; {% now "Y" %} Etunimi Sukunimi</p>
+    <footer class="site-footer">
+        <p>&copy; {% now "Y" %} {{ profile.full_name|default:"Portfolio" }}</p>
+        <a href="#top">Takaisin alkuun <span aria-hidden="true">↑</span></a>
     </footer>
 </body>
 </html>

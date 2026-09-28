@@ -63,25 +63,21 @@
 
     <!-- Työkokemukset haetaan tietokannasta. -->
     <section id="experience" aria-labelledby="experience-heading">
-        <h2 id="experience-heading">Työkokemus</h2>
+        <div class="section-heading section-heading--split">
+            <p class="section-label">02 / Kokemus</p>
+            <h2 id="experience-heading">Työkokemus</h2>
+        </div>
 
         {% for experience in experiences %}
             <article class="timeline-item">
-                <h3>{{ experience.job_title }}</h3>
-                <p>{{ experience.company }}</p>
-
-                <p>
-                    {{ experience.start_date|date:"m/Y" }}–
-                    {% if experience.end_date %}
-                        {{ experience.end_date|date:"m/Y" }}
-                    {% else %}
-                        nykyinen
-                    {% endif %}
+                <p class="timeline-date">
+                    <time datetime="{{ experience.start_date|date:'Y-m' }}">{{ experience.start_date|date:"m/Y" }}</time>–{% if experience.end_date %}<time datetime="{{ experience.end_date|date:'Y-m' }}">{{ experience.end_date|date:"m/Y" }}</time>{% else %}nykyinen{% endif %}
                 </p>
-
-                {% if experience.description %}
-                    <p>{{ experience.description }}</p>
-                {% endif %}
+                <div class="timeline-content">
+                    <p class="timeline-company">{{ experience.company }}</p>
+                    <h3>{{ experience.job_title }}</h3>
+                    {% if experience.description %}<p>{{ experience.description }}</p>{% endif %}
+                </div>
             </article>
         {% empty %}
             <p>Työkokemukset lisätään myöhemmin.</p>
@@ -90,20 +86,21 @@
 
     <!-- Koulutukset haetaan tietokannasta. -->
     <section id="education" aria-labelledby="education-heading">
-        <h2 id="education-heading">Koulutus</h2>
-
+        <div class="section-heading section-heading--split">
+            <p class="section-label">03 / Koulutus</p>
+            <h2 id="education-heading">Koulutus ja kurssit</h2>
+        </div>
+        <div class="education-grid">
         {% for education in educations %}
-            <article class="timeline-item">
+            <article class="education-card">
+                <p class="education-completion">{{ education.completion_label }}</p>
                 <h3>{{ education.degree }}</h3>
-                <p>{{ education.institution }}</p>
+                <p class="education-institution">{{ education.institution }}</p>
 
                 {% if education.field_of_study %}
                     <p>{{ education.field_of_study }}</p>
                 {% endif %}
 
-                <p>
-                    {{ education.completion_label }}
-                </p>
                 {% if education.description %}
                     <p>{{ education.description }}</p>
                 {% endif %}
@@ -111,14 +108,19 @@
         {% empty %}
             <p>Koulutukset lisätään myöhemmin.</p>
         {% endfor %}
+        </div>
     </section>
 
     <!-- Projektit haetaan tietokannasta. -->
     <section id="projects" aria-labelledby="projects-heading">
-        <h2 id="projects-heading">Projektit</h2>
-
+        <div class="section-heading">
+            <p class="section-label">04 / Projektit</p>
+            <h2 id="projects-heading">Projektit</h2>
+        </div>
+        <div class="project-grid">
         {% for project in projects %}
-            <article class="project-card">
+            <article class="project-card{% if project.is_featured %} project-card--featured{% endif %}">
+                <p class="project-label">{% if project.is_featured %}Nostettu projekti{% else %}Projekti{% endif %}</p>
                 <h3>{{ project.title }}</h3>
 
                 {% if project.description %}
@@ -126,17 +128,17 @@
                 {% endif %}
 
                 {% if project.technologies %}
-                    <p>Teknologiat: {{ project.technologies }}</p>
+                    <p class="project-technologies"><span>Teknologiat</span> {{ project.technologies }}</p>
                 {% endif %}
 
                 {% if project.project_url or project.source_url %}
                     <div class="project-links">
                         {% if project.project_url %}
-                            <a href="{{ project.project_url }}">Avaa projekti</a>
+                            <a href="{{ project.project_url }}">Avaa projekti <span aria-hidden="true">↗</span><span class="sr-only">: {{ project.title }}</span></a>
                         {% endif %}
 
                         {% if project.source_url %}
-                            <a href="{{ project.source_url }}">Näytä lähdekoodi</a>
+                            <a href="{{ project.source_url }}">Näytä lähdekoodi <span aria-hidden="true">↗</span><span class="sr-only">: {{ project.title }}</span></a>
                         {% endif %}
                     </div>
                 {% endif %}
@@ -144,17 +146,21 @@
         {% empty %}
             <p>Projektit lisätään myöhemmin.</p>
         {% endfor %}
+        </div>
     </section>
 
     <!-- Yhteystietolinkit haetaan tietokannasta. -->
     <section id="contact" aria-labelledby="contact-heading">
-        <h2 id="contact-heading">Yhteystiedot</h2>
+        <p class="section-label">05 / Yhteystiedot</p>
+        <h2 id="contact-heading">Ota yhteyttä</h2>
+        {% if profile.location %}<p class="contact-location">{{ profile.location }}</p>{% endif %}
 
         <ul class="contact-links">
             {% for contact_link in contact_links %}
                 <li>
-                    <a href="{{ contact_link.url }}">
+                    <a{% if contact_link.url|slice:':7' == 'mailto:' %} class="contact-primary"{% endif %} href="{{ contact_link.url }}">
                         {{ contact_link.label }}
+                        <span aria-hidden="true">↗</span>
                     </a>
                 </li>
             {% empty %}
