@@ -1,4 +1,5 @@
 {% extends "portfolio/base.html" %}
+{% load static %}
 
 {% block title %}{{ profile.full_name|default:"Portfolio" }} | CV{% endblock title %}
 
@@ -21,7 +22,7 @@
                 {% if profile and profile.cv_file %}
                     <a class="button-link button-link--secondary"
                        href="{{ profile.cv_file.url }}"
-                       target="_blank" rel="noopener">Lataa CV <span aria-hidden="true">↓</span></a>
+                       target="_blank" rel="noopener">Lataa CV {% include "portfolio/includes/icon.html" with name="download" only %}</a>
                 {% endif %}
             </div>
         </div>
@@ -121,7 +122,13 @@
         {% for project in projects %}
             <article class="project-card{% if project.is_featured %} project-card--featured{% endif %}">
                 <p class="project-label">{% if project.is_featured %}Nostettu projekti{% else %}Projekti{% endif %}</p>
-                <h3>{{ project.title }}</h3>
+                <div class="project-identity">
+                    <h3>{{ project.title }}</h3>
+                    {% if project.title|lower == 'oraowl' %}
+                        <img class="project-logo" src="{% static 'portfolio/images/oraowl-logo.png' %}"
+                             alt="" width="128" height="128" loading="lazy">
+                    {% endif %}
+                </div>
 
                 {% if project.description %}
                     <p>{{ project.description }}</p>
@@ -159,7 +166,16 @@
             {% for contact_link in contact_links %}
                 <li>
                     <a{% if contact_link.url|slice:':7' == 'mailto:' %} class="contact-primary"{% endif %} href="{{ contact_link.url }}">
-                        {{ contact_link.label }}
+                        {% if contact_link.url|slice:':7' == 'mailto:' %}
+                            {% include "portfolio/includes/icon.html" with name="mail" only %}
+                        {% elif contact_link.url|slice:':4' == 'tel:' %}
+                            {% include "portfolio/includes/icon.html" with name="phone" only %}
+                        {% elif contact_link.label|lower == 'github' %}
+                            {% include "portfolio/includes/icon.html" with name="github" only %}
+                        {% elif contact_link.label|lower == 'linkedin' %}
+                            {% include "portfolio/includes/icon.html" with name="linkedin" only %}
+                        {% endif %}
+                        <span class="contact-label">{{ contact_link.label }}</span>
                         <span aria-hidden="true">↗</span>
                     </a>
                 </li>

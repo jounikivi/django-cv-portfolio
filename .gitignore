@@ -26,3 +26,7 @@ vaihe0.py
 
 # Ylläpidosta ladattavat kuvat ja tiedostot
 /media/
+
+# collectstatic-komennon tulos ja SQLite-aputiedostot
+/staticfiles/
+db.sqlite3-*

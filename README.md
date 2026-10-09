@@ -98,6 +98,7 @@ requirements.txt          Python-riippuvuudet
 
 ```powershell
 .\.venv\Scripts\python.exe manage.py check
+.\.venv\Scripts\python.exe manage.py test portfolio
 .\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
 git diff --check
 ```
@@ -114,9 +115,11 @@ kopioimista. Säilytä varmuuskopiot projektin ulkopuolella.
 
 ## Projektin tila
 
-Sisältöjen hallinta ja sivuston perustoiminnot on toteutettu. Ulkoasun
-viimeistely ja tuotantoon julkaisu ovat seuraavia työvaiheita.
-Nykyiset asetukset (`DEBUG=True`) ja `runserver` on tarkoitettu paikalliseen
-kehitykseen. Tuotanto edellyttää erillisiä julkaisuasetuksia, kuten
-isäntänimien, salaisen avaimen ja staattisten sekä mediatiedostojen palvelun
-määrittämistä.
+Sisältöjen hallinta, responsiivinen ulkoasu ja mobiilivalikko on toteutettu.
+Paikallinen `cv_site.settings` ja `runserver` ovat vain kehityskäyttöön.
+Tuotannon asetukset ovat tiedostossa `cv_site/settings_production.py`:
+DEBUG on pois päältä, isäntänimet vaaditaan ja evästeet suojataan HTTPS:llä.
+
+Vaiheittainen julkaisu- ja päivitysohje: [PythonAnywhere](docs/PYTHONANYWHERE.md).
+Sivustoa ei ole vielä julkaistu; julkisen ympäristön hyväksymistesti tehdään
+palvelimella. HSTS otetaan käyttöön vasta toimivan HTTPS:n varmistamisen jälkeen.

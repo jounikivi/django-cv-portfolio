@@ -29,6 +29,24 @@ class SkillGroupingTests(SimpleTestCase):
 
 
 class PortfolioTemplateTests(SimpleTestCase):
+    def test_contact_icons_download_and_oraowl_logo(self):
+        html = render_to_string("portfolio/home.html", {
+            "profile": Profile(full_name="Testaaja", cv_file="documents/cv.pdf"),
+            "projects": [Project(title="ORAOwl"), Project(title="Toinen")],
+            "contact_links": [
+                ContactLink(label="Sähköposti", url="mailto:test@example.com"),
+                ContactLink(label="Puhelin", url="tel:+358401234567"),
+                ContactLink(label="GitHub", url="https://github.com/test"),
+                ContactLink(label="LinkedIn", url="https://www.linkedin.com/in/test"),
+                ContactLink(label="Muu", url="https://example.com"),
+            ],
+        })
+        for name in ("mail", "phone", "github", "linkedin", "download"):
+            self.assertIn(f'class="icon icon--{name}"', html)
+        self.assertEqual(html.count('class="project-logo"'), 1)
+        self.assertIn('aria-hidden="true" focusable="false"', html)
+        self.assertIn('class="contact-label">Muu</span>', html)
+
     def test_empty_page_renders(self):
         html = render_to_string("portfolio/home.html", {})
         self.assertIn('id="contact"', html)
