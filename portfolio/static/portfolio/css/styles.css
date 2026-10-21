@@ -158,7 +158,7 @@ h3 {
     min-width: 0;
     padding: clamp(1.5rem, 3vw, 2rem);
     border: 1px solid rgb(244 241 232 / 10%);
-    border-radius: 0.75rem;
+    border-radius: 0.2rem;
     background: linear-gradient(135deg, rgb(244 241 232 / 3%), transparent);
 }
 
@@ -216,8 +216,9 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 0.5rem;
-    padding-top: 0.25rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
 }
 
 .project-links a {
@@ -293,7 +294,7 @@ main > .skills-section {
     min-width: 0;
     padding: clamp(1.5rem, 3vw, 2rem);
     border: 1px solid rgb(244 241 232 / 10%);
-    border-radius: 0.75rem;
+    border-radius: 0.2rem;
     background: linear-gradient(135deg, rgb(244 241 232 / 3%), transparent), var(--color-background);
 }
 
@@ -307,12 +308,7 @@ main > .skills-section {
 }
 
 .skill-card h3::before {
-    content: "";
-    display: block;
-    width: 1.5rem;
-    height: 2px;
-    margin-bottom: 1.25rem;
-    background-color: var(--color-accent);
+    content: none;
 }
 
 .skill-card p {
@@ -549,10 +545,12 @@ main > .hero:first-child {
 
 .hero h1 {
     margin-block: 1.25rem;
-    font-size: clamp(2.75rem, 5.7vw, 5rem);
+    font-size: clamp(2.4rem, 4.2vw, 3.75rem);
     line-height: 1.04;
     letter-spacing: -0.055em;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
+    max-width: 19ch;
+    text-wrap: balance;
 }
 
 .hero p {
@@ -681,14 +679,8 @@ main > .hero:first-child {
     border-color: var(--color-accent);
 }
 
-.highlight-number,
 .highlight-arrow {
     color: var(--color-accent);
-}
-
-.highlight-number {
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
 }
 
 .highlight-arrow {
@@ -781,8 +773,42 @@ main > section {
     color: var(--color-accent);
 }
 
+/* Esittely ja korttien sisältöhierarkia. */
+.about-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+.about-content { min-width: 0; }
+.about-content h2 {
+    max-width: 20ch;
+    margin: 0 0 2rem;
+    color: var(--color-text);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+}
+.about-copy { max-width: 60ch; color: var(--color-muted); }
+.about-copy p { margin: 0 0 1rem; line-height: 1.85; }
+.about-copy p:first-child { color: var(--color-text); font-size: 1.2rem; line-height: 1.65; }
+.skill-card { display: flex; flex-direction: column; }
+.skill-card .skill-tools { padding-top: 1.5rem; margin-top: auto; color: var(--color-accent); font-size: 0.8rem; }
+.languages { display: flex; flex-wrap: wrap; gap: 1rem 3rem; padding-block: 1.5rem; margin-top: 1.5rem; border-block: 1px solid var(--color-border); }
+.languages h3 { margin: 0; font-size: 0.9rem; color: var(--color-accent); }
+.languages div { color: var(--color-muted); line-height: 1.9; }
+.project-meta { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; }
+.featured-label { font-size: 0.75rem; color: var(--color-muted); }
+.project-identity { min-height: 4rem; margin-block: 0.75rem; }
+.project-logo { max-height: 5rem; width: 5rem; object-fit: contain; }
+.project-footer { margin-top: auto; padding-top: 1.5rem; }
+.technology-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0; list-style: none; }
+.technology-tags li { padding: 0.3rem 0.65rem; border: 1px solid rgb(244 241 232 / 15%); border-radius: 2rem; color: var(--color-muted); font-size: 0.75rem; overflow-wrap: anywhere; }
+.contact-intro { max-width: 55ch; margin: 1.5rem auto 0; color: var(--color-muted); line-height: 1.8; }
+
 /* Mobiilinäkymä */
 @media (max-width: 48rem) {
+    .about-section,
     .section-heading--split,
     .education-grid,
     .project-grid {

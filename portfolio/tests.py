@@ -1,9 +1,47 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.template.loader import render_to_string
 from datetime import date
 
 from .models import Skill, Profile, Experience, Education, Project, ContactLink
 from .views import group_skills
+
+
+class PresentationUpdateTests(TestCase):
+    def test_content_seed_preserves_admin_edits_and_existing_cv_data(self):
+        from importlib import import_module
+        from types import SimpleNamespace
+        from django.apps import apps
+        from django.db import connection
+
+        profile = Profile.objects.create(full_name="Jouni Kiviperä", bio="Oma esittely",
+                                         headline="Adminissa muokattu otsikko", cv_file="documents/oma.pdf")
+        experience = Experience.objects.create(company="Jimm’s PC-Store Oy", job_title="Harjoittelija",
+                                               start_date=date(2024, 4, 1), description="Oma kuvaus")
+        seed = import_module("portfolio.migrations.0012_initial_presentation_content").seed_presentation
+        seed(apps, SimpleNamespace(connection=connection))
+        profile.refresh_from_db()
+        experience.refresh_from_db()
+        self.assertEqual(profile.headline, "Adminissa muokattu otsikko")
+        self.assertEqual(profile.bio, "Oma esittely")
+        self.assertEqual(profile.cv_file.name, "documents/oma.pdf")
+        self.assertTrue(profile.about_text)
+        self.assertEqual(experience.job_title, "Harjoittelija")
+        self.assertEqual(experience.description, "Oma kuvaus")
+        self.assertIn("kokoonpano", experience.display_title)
+
+    def test_optional_presentation_fields_are_escaped_and_can_be_hidden(self):
+        profile = Profile.objects.create(full_name="Testi", about_text="<script>alert(1)</script>")
+        response = self.client.get("/")
+        self.assertContains(response, 'href="#about"')
+        self.assertContains(response, "&lt;script&gt;")
+        self.assertNotContains(response, "<script>alert(1)</script>")
+        profile.about_text = ""
+        profile.save()
+        self.assertNotContains(self.client.get("/"), 'href="#about"')
+
+    def test_custom_skill_descriptions_survive_grouping(self):
+        groups = group_skills([Skill(name="Linux", description="Oma käytännön esimerkki")])
+        self.assertEqual(groups[0]["descriptions"], ["Oma käytännön esimerkki"])
 
 
 class SkillGroupingTests(SimpleTestCase):

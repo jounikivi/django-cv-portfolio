@@ -21,11 +21,19 @@ def group_skills(skills):
     for title, names in categories:
         members = [skill.name for skill in skills if skill.name in names]
         if members:
-            groups.append({"title": title, "items": members})
+            group = {"title": title, "items": members}
+            descriptions = [skill.description for skill in skills if skill.name in names and skill.description]
+            if descriptions:
+                group["descriptions"] = descriptions
+            groups.append(group)
             assigned.update(members)
     other = [skill.name for skill in skills if skill.name not in assigned]
     if other:
-        groups.append({"title": "Muu osaaminen", "items": other})
+        group = {"title": "Muu osaaminen", "items": other}
+        descriptions = [skill.description for skill in skills if skill.name in other and skill.description]
+        if descriptions:
+            group["descriptions"] = descriptions
+        groups.append(group)
     return groups
 
 

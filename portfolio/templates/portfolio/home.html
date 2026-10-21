@@ -8,17 +8,17 @@
     <section id="top" class="hero{% if profile.image %} hero--with-image{% endif %}" aria-labelledby="intro-heading">
         <div class="hero-content">
             {% if profile %}
-                <p class="hero-eyebrow">CV & Portfolio{% if profile.location %} <span aria-hidden="true">/</span> {{ profile.location }}{% endif %}</p>
-                <h1 id="intro-heading">{{ profile.full_name }}</h1>
-                <p class="hero-title">{{ profile.title }}</p>
-                <p class="hero-bio">{{ profile.bio }}</p>
+                <p class="hero-eyebrow">{{ profile.full_name }}{% if profile.location %} <span aria-hidden="true">/</span> {{ profile.location }}{% endif %}</p>
+                <h1 id="intro-heading">{{ profile.headline|default:profile.full_name }}</h1>
+                {% if not profile.headline %}<p class="hero-title">{{ profile.title }}</p>{% endif %}
+                <p class="hero-bio">{{ profile.intro|default:profile.bio }}</p>
             {% else %}
                 <h1 id="intro-heading">Etunimi Sukunimi</h1>
                 <p class="hero-bio">Esittelyteksti lisätään myöhemmin.</p>
             {% endif %}
 
             <div class="hero-actions">
-                <a class="button-link" href="#contact">Ota yhteyttä <span aria-hidden="true">↗</span></a>
+                <a class="button-link" href="#skills">Tutustu osaamiseeni <span aria-hidden="true">↗</span></a>
                 {% if profile and profile.cv_file %}
                     <a class="button-link button-link--secondary"
                        href="{{ profile.cv_file.url }}"
@@ -37,29 +37,43 @@
         {% if skills %}
             <ul class="hero-highlights" aria-label="Poimintoja osaamisestani">
                 {% for skill in skills|slice:":3" %}
-                    <li><a href="#skills"><span class="highlight-number" aria-hidden="true">0{{ forloop.counter }}</span><span>{{ skill.name }}</span><span class="highlight-arrow" aria-hidden="true">↗</span></a></li>
+                    <li><a href="#skills"><span>{{ skill.name }}</span><span class="highlight-arrow" aria-hidden="true">↗</span></a></li>
                 {% endfor %}
             </ul>
         {% endif %}
     </section>
 
+    {% if profile.about_text %}
+    <section id="about" aria-labelledby="about-heading" class="about-section">
+        <p class="section-label">Minusta</p>
+        <div class="about-content">
+            <h2 id="about-heading">{{ profile.about_heading|default:"Minusta" }}</h2>
+            <div class="about-copy">{{ profile.about_text|linebreaks }}</div>
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Osaamiset haetaan tietokannasta näkymän välittämän kontekstin kautta. -->
     <section id="skills" class="skills-section" aria-labelledby="skills-heading">
         <div class="skills-heading">
             <p class="section-label">Osaaminen</p>
-            <h2 id="skills-heading">Käytännön osaaminen</h2>
+            <h2 id="skills-heading">Osaamista käytännön työstä</h2>
         </div>
 
         <ul class="skill-grid">
             {% for group in skill_groups %}
                 <li class="skill-card">
                     <h3>{{ group.title }}</h3>
-                    <p>{{ group.items|join:" · " }}</p>
+                    {% for description in group.descriptions %}<p>{{ description }}</p>{% endfor %}
+                    <p class="skill-tools">{{ group.items|join:" · " }}</p>
                 </li>
             {% empty %}
                 <li class="empty-state">Osaamisia lisätään myöhemmin.</li>
             {% endfor %}
         </ul>
+        {% if profile.languages %}
+        <div class="languages"><h3>Kielitaito</h3><div>{{ profile.languages|linebreaksbr }}</div></div>
+        {% endif %}
     </section>
 
     <!-- Työkokemukset haetaan tietokannasta. -->
@@ -76,7 +90,7 @@
                 </p>
                 <div class="timeline-content">
                     <p class="timeline-company">{{ experience.company }}</p>
-                    <h3>{{ experience.job_title }}</h3>
+                    <h3>{{ experience.display_title|default:experience.job_title }}</h3>
                     {% if experience.description %}<p>{{ experience.description }}</p>{% endif %}
                 </div>
             </article>
@@ -121,7 +135,7 @@
         <div class="project-grid">
         {% for project in projects %}
             <article class="project-card{% if project.is_featured %} project-card--featured{% endif %}">
-                <p class="project-label">{% if project.is_featured %}Nostettu projekti{% else %}Projekti{% endif %}</p>
+                <div class="project-meta"><p class="project-label">{{ project.category|default:"Projekti" }}</p>{% if project.is_featured %}<span class="featured-label">Valittu työ</span>{% endif %}</div>
                 <div class="project-identity">
                     <h3>{{ project.title }}</h3>
                     {% if project.title|lower == 'oraowl' %}
@@ -134,8 +148,11 @@
                     <p>{{ project.description }}</p>
                 {% endif %}
 
-                {% if project.technologies %}
-                    <p class="project-technologies"><span>Teknologiat</span> {{ project.technologies }}</p>
+                <div class="project-footer">
+                {% if project.technology_tags %}
+                    <ul class="technology-tags" aria-label="Teknologiat">
+                        {% for technology in project.technology_tags %}<li>{{ technology }}</li>{% endfor %}
+                    </ul>
                 {% endif %}
 
                 {% if project.project_url or project.source_url %}
@@ -149,6 +166,7 @@
                         {% endif %}
                     </div>
                 {% endif %}
+                </div>
             </article>
         {% empty %}
             <p>Projektit lisätään myöhemmin.</p>
@@ -160,6 +178,7 @@
     <section id="contact" aria-labelledby="contact-heading">
         <p class="section-label">Yhteystiedot</p>
         <h2 id="contact-heading">Ota yhteyttä</h2>
+        {% if profile.contact_intro %}<p class="contact-intro">{{ profile.contact_intro }}</p>{% endif %}
         {% if profile.location %}<p class="contact-location">{{ profile.location }}</p>{% endif %}
 
         <ul class="contact-links">

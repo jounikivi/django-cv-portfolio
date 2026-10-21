@@ -6,6 +6,7 @@ class Skill(models.Model):
     """Tallentaa yhden CV-sivustolla näytettävän taidon."""
 
     name = models.CharField(max_length=100)
+    description = models.TextField("Käytännön esimerkki", blank=True)
     level = models.PositiveSmallIntegerField(
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(5)],
@@ -26,6 +27,12 @@ class Profile(models.Model):
     full_name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     bio = models.TextField()
+    headline = models.CharField("Etusivun pääotsikko", max_length=200, blank=True)
+    intro = models.TextField("Lyhyt aloitusteksti", blank=True)
+    about_heading = models.CharField("Minusta-osion otsikko", max_length=200, blank=True)
+    about_text = models.TextField("Minusta", blank=True)
+    languages = models.TextField("Kielitaito", blank=True, help_text="Yksi kieli ja sen taso per rivi.")
+    contact_intro = models.TextField("Yhteydenoton esittelyteksti", blank=True)
     location = models.CharField(max_length=100)
     image = models.ImageField(upload_to="profile/", blank=True)
     image_alt_text = models.CharField(max_length=150, blank=True, default="")
@@ -46,6 +53,8 @@ class Experience(models.Model):
 
     company = models.CharField(max_length=100)
     job_title = models.CharField(max_length=100)
+    display_title = models.CharField("Kuvaava tehtäväotsikko", max_length=200, blank=True,
+                                     help_text="Vapaaehtoinen julkinen otsikko. Säilytä tehtävänimike tunnistettavana.")
     description = models.TextField(blank=True)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
@@ -98,6 +107,7 @@ class Project(models.Model):
     """Tallentaa yhden CV-sivustolla esiteltävän projektin."""
 
     title = models.CharField(max_length=100)
+    category = models.CharField("Projektin tyyppi", max_length=80, blank=True)
     description = models.TextField(blank=True)
     technologies = models.CharField(max_length=200, blank=True)
     project_url = models.URLField(blank=True)
@@ -111,6 +121,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def technology_tags(self):
+        return [item.strip() for item in self.technologies.split(",") if item.strip()]
 
 
 class ContactLink(models.Model):

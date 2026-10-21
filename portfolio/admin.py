@@ -54,6 +54,13 @@ class ExperienceAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ("full_name", "title", "location")
     search_fields = ("full_name", "title", "location")
+    fieldsets = (
+        ("Perustiedot", {"fields": ("full_name", "title", "location", "image", "image_alt_text", "cv_file")}),
+        ("Etusivun aloitus", {"fields": ("headline", "intro")}),
+        ("Minusta ja kielitaito", {"fields": ("about_heading", "about_text", "languages")}),
+        ("Yhteydenotto", {"fields": ("contact_intro",)}),
+        ("Alkuperäinen esittely", {"fields": ("bio",), "description": "Säilytetty esittely toimii varatekstinä, jos uudet esittelykentät ovat tyhjiä."}),
+    )
 
 
 @admin.register(Project)

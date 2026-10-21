@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=10">
+    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}?v=11">
     <script src="{% static 'portfolio/js/navigation.js' %}" defer></script>
     <!-- Lapsitemplate voi korvata välilehden otsikon. -->
     <title>{% block title %}{{ profile.full_name|default:"Portfolio" }} | CV{% endblock title %}</title>
@@ -22,6 +22,7 @@
         </button>
         <nav id="site-navigation" aria-label="Päänavigaatio">
             <ul class="nav-list">
+                {% if profile.about_text %}<li><a href="#about">Minusta</a></li>{% endif %}
                 <li><a href="#skills">Osaaminen</a></li>
                 <li><a href="#experience">Työkokemus</a></li>
                 <li><a href="#education">Koulutus</a></li>
